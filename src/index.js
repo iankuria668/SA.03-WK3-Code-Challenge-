@@ -39,20 +39,26 @@ document.addEventListener("DOMContentLoaded", () => {
            
     }
 
-    // Adding Movies to the lis
-    function fetchAllMovies() {
+    // Configuring the menu
+function fetchAllMovies() {
         fetch(baseUrl + "/films")
             .then(response => response.json())
-            .then(movies => {
-                movies.forEach(movie => {
+            .then (data => {
+                const filmList = document.getElementById("films");
+                filmList.innerHTML = "";movies
+
+                data.forEach(films => {
                     const listItem = document.createElement("li");
-                    listItem.classList.add("film", "item");
-                    listItem.innerHTML = movie.title;
-                    document.getElementById("films").appendChild(listItem);
+                    listItem.classList.add("film-item");
+                    listItem.innerHTML = films.title;
+                    filmList.appendChild(listItem);
                 });
+            
             })
             .catch(error => console.error("Error fetching movies:", error));
-    }            
+    }
+            
+
             
 
 
