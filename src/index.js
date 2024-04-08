@@ -1,28 +1,14 @@
 let baseUrl = "http://localhost:3000";
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Render movie details on page
-    fetchMovieDetails();
-
-    // Render menu with all movies
-    fetchAllMovies();
-
-    // Add event listener to buy ticket button
-    document.getElementById("buy-ticket").addEventListener("click", buyTicket);
-
-    // Add event listener to delete button
-    document.querySelectorAll('delete-button').forEach(button => {
-        button.addEventListener("click", deleteFilm);
-    });
-
-    // Adding the fetchMovieDetails function
+    // Fetch movie details
     function fetchMovieDetails() {
         fetch(baseUrl + "/films/1")
             .then(response => response.json())
             .then(movie => {
                 document.getElementById("title").innerHTML = movie.title;
-                document.getElementById("runtime").innerHTML = movie.runtime + " Minutes";
-                document.getElementById("showtime").innerHTML = movie.showtime;
+                document.getElementById("runtime").innerHTML = movie.runtime + " minutes";
+                document.getElementById("showtime").innerHTML = movie.showtime ;
                 document.getElementById("film-info").innerHTML = movie.description;
                 document.getElementById("poster").src = movie.poster;
                 document.getElementById("poster").alt = movie.title;
@@ -30,37 +16,36 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .catch(error => console.error("Error fetching movie details:", error));
             
+    }
+
+    fetchMovieDetails();
+
+    //Create movie menu list
+
+    function createMovieList() {
+      const movieMenu = document.getElementById('films');
+            movieMenu.innerHTML = '';
+      fetch(baseUrl + "/films")
+        .then(response => response.json())
+        .then(films => {
+          films.forEach(movie => { 
+            const listItem = document.createElement('li');
+            listItem.classList.add('film', 'item');
+            listItem.innerHTML = movie.title;
+            movieMenu.appendChild(listItem); 
+          });
+        })
+        .catch(error => console.error("Error fetching movie list:", error));
+    }
+
+    createMovieList();
+
+    // 
 
     // Indicate if the movie is sold out
-                if (movie.tickets_sold >= movie.capacity) {
-                    document.getElementById("buy-ticket").disabled = true;
-                    document.getElementById("buy-ticket").innerHTML = "Sold Out";
-                }
-           
-    }
-
-    // Configuring the menu
-function fetchAllMovies() {
-        fetch(baseUrl + "/films")
-            .then(response => response.json())
-            .then (data => {
-                const filmList = document.getElementById("films");
-                filmList.innerHTML = "";movies
-
-                data.forEach(films => {
-                    const listItem = document.createElement("li");
-                    listItem.classList.add("film-item");
-                    listItem.innerHTML = films.title;
-                    filmList.appendChild(listItem);
-                });
-            
-            })
-            .catch(error => console.error("Error fetching movies:", error));
-    }
-            
-
-            
-
-
+                  //if (movie.tickets_sold >= movie.capacity) {
+                      //document.getElementById("buy-ticket").disabled = true;
+                      //document.getElementById("buy-ticket").innerHTML = "Sold Out";
+                  //}
 
 });
