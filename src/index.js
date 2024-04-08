@@ -40,7 +40,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     createMovieList();
 
-    // 
+    // Making the film Menu Clickable
+
+    const filmMenu = document.getElementById('films');
+    filmMenu.addEventListener('click', (event) => {
+      const selectedMovie = event.target.textContent;
+      fetch(baseUrl + "/films")
+        .then(response => response.json())
+        .then(films => {
+          films.forEach(movie => {
+            if (movie.title === selectedMovie) {
+              document.getElementById("title").innerHTML = movie.title;
+              document.getElementById("runtime").innerHTML = movie.runtime + " minutes";
+              document.getElementById("showtime").innerHTML = movie.showtime ;
+              document.getElementById("film-info").innerHTML = movie.description;
+              document.getElementById("poster").src = movie.poster;
+              document.getElementById("poster").alt = movie.title;
+              document.getElementById("ticket-num").innerHTML = movie.capacity - movie.tickets_sold;
+            }
+          });
+        })
+        .catch(error => console.error("Error fetching movie details:", error));
+    });
+    //Making the Delete button Clickable
+
+  
 
     // Indicate if the movie is sold out
                   //if (movie.tickets_sold >= movie.capacity) {
@@ -48,4 +72,5 @@ document.addEventListener("DOMContentLoaded", () => {
                       //document.getElementById("buy-ticket").innerHTML = "Sold Out";
                   //}
 
-});
+  }
+  );
