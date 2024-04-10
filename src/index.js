@@ -82,8 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    //Function to handle th eDelete Movie Button Click
-    function deleteCurrentMovie(){x
+    //Function to handle the Delete Movie Button Click
+    function deleteCurrentMovie(){
         if (currentMovie){
             //Send a DELETE request to the server
             fetch(`http://localhost:3000/films/${currentMovie.id}`,{
